@@ -56,7 +56,9 @@ public class Ascolto extends Thread {
 
                 } else if (letto.equals("File File File!!!")) {//leggo il FILE
                     long fileSize = Long.valueOf(br.readLine());
-                    receiveFile(fileSize);
+                    String estensione= br.readLine();
+                    System.out.println(estensione);
+                    receiveFile(fileSize,estensione);
 
                 } else {//leggo una normale STRINGA
                     f.logArea.setText(f.logArea.getText() + "\n" + letto);
@@ -73,7 +75,7 @@ public class Ascolto extends Thread {
         }//fine while
     }
 
-    public void receiveFile(long x) {
+    public void receiveFile(long x,String extension) {
         int bytesRead, current = 0;
         byte[] byteArray = new byte[((int) x)+1];
         InputStream is;
@@ -90,7 +92,7 @@ public class Ascolto extends Thread {
 
                 do{
                     String nome= JOptionPane.showInputDialog("Inserisci il nome del file da ricevere");
-                    f = new File(String.valueOf(choice.getSelectedFile()+File.separator+nome+".jpg"));
+                    f = new File(String.valueOf(choice.getSelectedFile()+File.separator+nome+"."+extension));
                     System.out.println(f.exists());
                 }while(f.exists());// inserire un nome file non esistente
                 
@@ -105,7 +107,7 @@ public class Ascolto extends Thread {
                     bytesRead = is.read(byteArray, current, (byteArray.length - current));
                     if (bytesRead >= 0) {
                         current += bytesRead;
-                    }
+                    }  //leggo l'array di byte 
                 } while (bytesRead > -1);
 
                 bos.write(byteArray, 0, current);

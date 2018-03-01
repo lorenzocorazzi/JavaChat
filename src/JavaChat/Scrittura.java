@@ -71,7 +71,7 @@ public class Scrittura extends Thread {
             int current;
             long size = f.length();
             byte[] bytes = new byte[(int) f.length()];
-
+            //Per inviare il file mi serve trasformarlo in byte 
             while ((current = in.read(bytes)) > 0) {
                 os.write(bytes, 0, current);
             }

@@ -2,12 +2,12 @@ package JavaChat;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
+import java.io.*;
 
 public class Finestra implements ActionListener {
 
@@ -143,6 +143,7 @@ SwingUtilities.getUnwrappedParent(logArea);
                 selectedFile= choice.getSelectedFile();
                 s.scrivi("File File File!!!");
                 s.scrivi(String.valueOf(selectedFile.length()));
+                s.scrivi(String.valueOf(selectedFile).substring(String.valueOf(selectedFile).lastIndexOf(".")+ 1)); // prendo l'estenzione del file
                 s.inviaFile(selectedFile);
             }
         }
