@@ -60,7 +60,6 @@ public class Ascolto extends Thread {
 
                 } else {//leggo una normale STRINGA
                     f.logArea.setText(f.logArea.getText() + "\n" + letto);
-                    System.out.println(PURPLE + g.autore + " CAZZO " + letto + RESET);
                 }
 
             } catch(NullPointerException e){
