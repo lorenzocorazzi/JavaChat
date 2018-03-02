@@ -14,22 +14,16 @@ import java.util.logging.Logger;
  */
 public class ClientOgg {
 
-    Socket connection;
-    String serverAddress;
-    int port;
-    BufferedReader br;
-    BufferedWriter bw;
-    Gestore g;
-    Ascolto a;
-    Finestra f;
+    private Socket connection;
+    private String serverAddress;
+    private int port;
+    private Ascolto a;
+    private Finestra f;
 
     ClientOgg() {
         connection = null;
         serverAddress = "localhost";
         port = 2000;
-        br = null;
-        bw = null;
-        g=null;
         a=null;
     }
 
@@ -47,10 +41,9 @@ public class ClientOgg {
     }
 
     public void comunica() {
-        g = new Gestore();
         f=new Finestra(connection);
         //Passo connection come parametro per averlo in comune tra i due thread
-        a = new Ascolto(connection, g,f);
+        a = new Ascolto(connection, f);
         a.start();
     }
 

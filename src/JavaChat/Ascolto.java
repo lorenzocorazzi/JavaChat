@@ -22,28 +22,22 @@ import javax.swing.JOptionPane;
  */
 public class Ascolto extends Thread {
 
-    public static final String PURPLE = "\u001B[35m";
-    public static final String RESET = "\u001B[0m";
-    Socket connection;
-    BufferedReader br;
-    Gestore g;
-    Finestra f;
-    int fileCounter;
+    private Socket connection;
+    private BufferedReader br;
+    private Finestra f;
 
-    Ascolto(Socket c, Gestore x, Finestra z) {
+    Ascolto(Socket c, Finestra z) {
         try {
             connection = c;
             br = new BufferedReader(new InputStreamReader(c.getInputStream()));
         } catch (IOException ioE) {
             ioE.printStackTrace();
         }
-        g = x;
         f = z;
-        fileCounter=0;
     }
 
     public void run() {
-        while (!g.end) {
+        while (true) {
 
             try {
                 String letto = br.readLine();

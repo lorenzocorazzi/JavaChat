@@ -12,12 +12,12 @@ import java.io.*;
 public class Finestra implements ActionListener {
 
     private Scrittura s;
+	private JFrame frame;
     protected JTextPane msgArea;
     private JScrollPane msgScroller;
     protected JTextPane logArea;
     private JScrollPane logScroller;
     private JTextArea text;
-    private JFrame frame;
     private JButton b1;
     private JButton b2;
     private JButton b3;
@@ -25,7 +25,7 @@ public class Finestra implements ActionListener {
     private ImageIcon smile;
     private ImageIcon like;
     private JFileChooser choice;
-    private File selectedFile;
+
     Finestra(Socket x) {
 
         s = new Scrittura(x);
@@ -50,8 +50,8 @@ public class Finestra implements ActionListener {
 
         msgArea = new JTextPane();
         msgArea.setEditable(false);
-SwingUtilities.getUnwrappedParent(msgArea);
-SwingUtilities.getUnwrappedParent(logArea);
+		SwingUtilities.getUnwrappedParent(msgArea);
+		SwingUtilities.getUnwrappedParent(logArea);
 
         msgScroller = new JScrollPane();
         msgScroller.setBorder(BorderFactory.createTitledBorder("My messages"));
@@ -91,7 +91,7 @@ SwingUtilities.getUnwrappedParent(logArea);
         //ENDPANEL
         choice=new JFileChooser();
         choice.getCurrentDirectory();
-        choice.setDialogTitle("Seeleziona un file da inviare");
+        choice.setDialogTitle("Seleziona un file da inviare");
         JPanel endPanel = new JPanel();
         endPanel.setLayout(new GridLayout(1, 1));
         smile=new ImageIcon("icone/SmileIcon.png");
@@ -140,7 +140,7 @@ SwingUtilities.getUnwrappedParent(logArea);
         if(e.getSource() == b4){
             int val = choice.showOpenDialog(frame); // apre la finestra di scelta
             if(val==choice.APPROVE_OPTION){// se l'utente selezione un file
-                selectedFile= choice.getSelectedFile();
+                File selectedFile= choice.getSelectedFile();
                 s.scrivi("File File File!!!");
                 s.scrivi(String.valueOf(selectedFile.length()));
                 s.scrivi(String.valueOf(selectedFile).substring(String.valueOf(selectedFile).lastIndexOf(".")+ 1)); // prendo l'estenzione del file

@@ -24,10 +24,9 @@ import javax.swing.ImageIcon;
  */
 public class Scrittura extends Thread {
 
-    Socket connection;
-    BufferedWriter bw;
-    OutputStream os;
-    Gestore g;
+    private Socket connection;
+    private BufferedWriter bw;
+    private OutputStream os;
 
     Scrittura(Socket c) {
         connection = c;
