@@ -1,9 +1,5 @@
 package JavaChat;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.text.BadLocationException;
-
 /*
  * @author Lorenzo Corazzi
  */

@@ -1,16 +1,12 @@
 package JavaChat;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
@@ -31,13 +27,14 @@ public class Scrittura extends Thread {
     Scrittura(Socket c) {
         connection = c;
         try {
-            bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+            os=connection.getOutputStream();
+            bw = new BufferedWriter(new OutputStreamWriter(os));
         } catch (IOException ex) {
             Logger.getLogger(Scrittura.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void scrivi(String msg) {
+    public void scrivi(String msg) {//invio un messaggio testuale
         try {
             bw.write(msg + "\n");
             bw.flush();
@@ -50,7 +47,7 @@ public class Scrittura extends Thread {
         }
     }
 
-    public void scrivi(ImageIcon msg) {
+    public void scrivi(ImageIcon msg) {//invio la source dell'icona
         try {
             bw.write(msg + "\n");
             bw.flush();
@@ -63,19 +60,19 @@ public class Scrittura extends Thread {
         }
     }
 
-    public void inviaFile(File f) {
+    public void inviaFile(File f) {//invio un file a sceltra
         try {
             InputStream in = new FileInputStream(f);
-            os = connection.getOutputStream();
             int current;
-            long size = f.length();
             byte[] bytes = new byte[(int) f.length()];
             //Per inviare il file mi serve trasformarlo in byte 
             while ((current = in.read(bytes)) > 0) {
                 os.write(bytes, 0, current);
             }
-
-            os.close();// DA RIVEDERE, SE NON CHIUDO IL FILE NON VIENE RICEVUTO
+            
+            os.close();
+            in.close();
+            // DA RIVEDERE, SE NON CHIUDO IL FILE NON VIENE RICEVUTO
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         } catch (IOException e) {}

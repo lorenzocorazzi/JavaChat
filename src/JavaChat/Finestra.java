@@ -3,16 +3,13 @@ package JavaChat;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 import java.io.*;
 
 public class Finestra implements ActionListener {
 
     private Scrittura s;
-	private JFrame frame;
+    private JFrame frame;
     protected JTextPane msgArea;
     private JScrollPane msgScroller;
     protected JTextPane logArea;
@@ -26,11 +23,11 @@ public class Finestra implements ActionListener {
     private ImageIcon like;
     private JFileChooser choice;
 
-    Finestra(Socket x) {
+    Finestra(Socket x,String nome) {
 
         s = new Scrittura(x);
         //FRAME E CONTAINER
-        frame = new JFrame("JavaChat");
+        frame = new JFrame("JavaChat("+nome+")");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel contentPane = new JPanel();
@@ -71,13 +68,13 @@ public class Finestra implements ActionListener {
         
         text.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if(text.getText().length()>30){
+            public void keyPressed(KeyEvent e) {//evento che si scatena quando viene premuto un tasto 
+                if(text.getText().length()>30){// non fa scrivere una riga più grande di 30 caratteri
                     text.setText(text.getText().substring(0, 30));
                     e.consume();
                 }
-                if (e.getKeyCode() == KeyEvent.VK_ENTER && text.getText() != "") {
-                    //INVIARE DATI
+                if (e.getKeyCode() == KeyEvent.VK_ENTER && text.getText() != "") {// controllo se il tasto premuto è INVIO
+                    //Se si scrivo sul log dei messaggi locali e lo invio al destinatario
                     msgArea.setText(msgArea.getText() + "\n" + text.getText());
                     s.scrivi(text.getText());
                     text.setText(null);
@@ -123,26 +120,28 @@ public class Finestra implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {//ascoltatore dei pulsanti in basso 
         if (e.getSource() == b1) {
             logScroller.setBorder(BorderFactory.createTitledBorder(text.getText() + " "));
-            text.setText(null);
+            text.setText(null); // primo pulsante, cambia il nome dell'utente
         }
         
         if(e.getSource() == b2){
-            s.scrivi(like);
+            msgArea.insertIcon(new ImageIcon("icone/LikeIcon.png"));
+            s.scrivi(like);// secondo pulnsante, invia il Like
         }
         
         if(e.getSource() == b3){
-            s.scrivi(smile);
+            msgArea.insertIcon(new ImageIcon("icone/SmileIcon.png"));
+            s.scrivi(smile); // terzo pulsante, invia uno smile
         }
         
-        if(e.getSource() == b4){
+        if(e.getSource() == b4){// quarto pulsante invia un file
             int val = choice.showOpenDialog(frame); // apre la finestra di scelta
             if(val==choice.APPROVE_OPTION){// se l'utente selezione un file
                 File selectedFile= choice.getSelectedFile();
-                s.scrivi("File File File!!!");
-                s.scrivi(String.valueOf(selectedFile.length()));
+                s.scrivi("File File File!!!");// invio dei messaggi predefiniti decisi dal programmatore per sincronizzarsi e
+                s.scrivi(String.valueOf(selectedFile.length()));//per far capire al destinatario che il prossimo invio sarà un file
                 s.scrivi(String.valueOf(selectedFile).substring(String.valueOf(selectedFile).lastIndexOf(".")+ 1)); // prendo l'estenzione del file
                 s.inviaFile(selectedFile);
             }

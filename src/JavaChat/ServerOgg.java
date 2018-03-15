@@ -3,8 +3,6 @@ package JavaChat;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * @author Lorenzo Corazzi
@@ -24,7 +22,7 @@ public class ServerOgg {
         a = null;
     }
 
-    public void attendi() {
+    public void attendi() {// attesa del server di un client che stabilisca la connessione
         boolean sent = false;
         while (!sent) {
             try {
@@ -42,22 +40,10 @@ public class ServerOgg {
     }
     
     public void comunica() {
-        f=new Finestra(connection);
+        f=new Finestra(connection,"Server");
         //Passo connection come parametro per averlo in comune tra i due thread
         a = new Ascolto(connection, f);
         a.start();
     }
 
-//    public void chiudi() {
-//        try {
-//            if (sSocket != null) {
-//                sSocket.close();
-//            }
-//            if (connection != null) {
-//                connection.close();
-//            }
-//        } catch (IOException ex) {
-//            Logger.getLogger(ServerOgg.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 }
